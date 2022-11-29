@@ -118,21 +118,28 @@ jobs:
           print(f"downloading link: {link}", flush=True)
           out_file = "xaml.appx"
           if not os.path.isfile(out_file):
-              urllib.request.urlretrieve(link, out_file)
+              r = requests.get(link)
+              with open(out_file, 'wb') as f:
+                  f.write(r.content)
 
           a = html.find("a", string=re.compile(f"Microsoft\.VCLibs\..*_{arch}_.*\.appx"))
           link = a["href"]
           print(f"downloading link: {link}", flush=True)
           out_file = "vclibs.appx"
           if not os.path.isfile(out_file):
-              urllib.request.urlretrieve(link, out_file)
+              r = requests.get(link)
+              with open(out_file, 'wb') as f:
+                  f.write(r.content)
 
           a = html.find("a", string=re.compile("MicrosoftCorporationII\.WindowsSubsystemForAndroid_.*\.msixbundle"))
           link = a["href"]
           print(f"downloading link: {link}", flush=True)
           out_file = "wsa.zip"
           if not os.path.isfile(out_file):
-              urllib.request.urlretrieve(link, out_file)
+              # urllib.request.urlretrieve(link, out_file)
+              r = requests.get(link)
+              with open(out_file, 'wb') as f:
+                  f.write(r.content)
 
           zip_name = ""
           with zipfile.ZipFile(out_file) as zip:
